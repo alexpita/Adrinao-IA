@@ -172,6 +172,24 @@ Scaricare dataset grandi non basta. Le fonti devono essere classificate per uso,
 
 Molti dataset italiani sono `NC`, derivati da traduzioni, oppure pensati per evaluation e non per training. Ogni fonte va verificata prima dell'uso nel modello finale.
 
+## 2026-06-26 - Ripartenza Pulita E Training Riprendibile
+
+### Contesto
+
+La prima esecuzione completa ha prodotto confusione operativa: il dataset distillato non era materializzato in `data/distilled`, la finestra di comando poteva chiudersi lasciando poca traccia, e una nuova esecuzione rischiava di mescolare output vecchi e dati aggiornati.
+
+### Decisione
+
+Il launcher `TRAINA_TUTTO_ADRIANO.bat` ora gestisce una ripartenza pulita quando non esiste una run attiva: rimuove solo artefatti generati, ricrea il dataset distillato locale, prepara il dataset finale e avvia il training. Se una run viene interrotta, il marker locale permette al batch successivo di riprendere dai checkpoint invece di ricominciare da zero.
+
+### Motivo
+
+Il progetto deve essere eseguibile da doppio click anche da chi non vuole usare comandi manuali. I passaggi critici devono essere espliciti, ripetibili e tracciati su log locale.
+
+### Rischio Residuo
+
+Il distillato locale deriva ancora dai dataset instruction disponibili localmente; una distillazione con teacher esterno richiede credenziali e una scelta esplicita del modello teacher.
+
 ## Registro Decisioni
 
 | Data | Decisione | Motivo |
@@ -186,6 +204,7 @@ Molti dataset italiani sono `NC`, derivati da traduzioni, oppure pensati per eva
 | 2026-06-26 | Target contesto 512k come architettura | Evitare configurazioni locali irrealistiche e pianificare long-context in modo robusto |
 | 2026-06-26 | Catalogo fonti dataset italiane | Separare corpus, benchmark e instruction data con attenzione alle licenze |
 | 2026-06-26 | Launcher root `TRAINA_TUTTO_ADRIANO.bat` e `CREA_MODELLO_USABILE_ADRIANO.bat` | Tenere solo due batch operativi: training completo e creazione modello |
+| 2026-06-26 | Training pulito con resume automatico | Evitare output mescolati e recuperare da interruzioni della finestra |
 
 ## Standard Del Diario
 

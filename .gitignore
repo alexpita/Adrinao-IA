@@ -8,6 +8,7 @@ outputs/
 unsloth_compiled_cache/
 wandb/
 runs/
+logs/
 data/distilled/*.jsonl
 data/curated/*.jsonl
 data/curated/*.json

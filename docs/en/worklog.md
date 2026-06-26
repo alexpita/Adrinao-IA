@@ -172,6 +172,24 @@ Downloading large datasets is not enough. Sources must be classified by use, lic
 
 Many Italian datasets are `NC`, translated, or designed for evaluation rather than training. Each source must be checked before use in the final model.
 
+## 2026-06-26 - Clean Restart And Resumable Training
+
+### Context
+
+The first full execution exposed operational confusion: the distilled dataset was not materialized under `data/distilled`, the command window could close with little trace, and a new execution could mix old outputs with updated data.
+
+### Decision
+
+`TRAINA_TUTTO_ADRIANO.bat` now performs a clean restart when no active run marker exists: it removes only generated artifacts, recreates the local distilled dataset, prepares the final dataset, and starts training. If a run is interrupted, the local marker lets the next batch execution resume from checkpoints instead of starting over.
+
+### Rationale
+
+The project must be runnable by double click without manual command-line recovery. Critical steps must be explicit, repeatable, and traceable through a local log.
+
+### Remaining Risk
+
+The local distilled dataset still derives from available instruction datasets; external-teacher distillation requires credentials and an explicit teacher model choice.
+
 ## Decision Log
 
 | Date | Decision | Rationale |
@@ -186,6 +204,7 @@ Many Italian datasets are `NC`, translated, or designed for evaluation rather th
 | 2026-06-26 | 512k context as an architecture target | Avoid unrealistic local settings and plan long-context robustly |
 | 2026-06-26 | Italian dataset source catalog | Separate corpora, benchmarks, and instruction data with license awareness |
 | 2026-06-26 | Root launchers `TRAINA_TUTTO_ADRIANO.bat` and `CREA_MODELLO_USABILE_ADRIANO.bat` | Keep only two operational batch files: full training and model creation |
+| 2026-06-26 | Clean training with automatic resume | Avoid mixed outputs and recover from command-window interruption |
 
 ## Worklog Standard
 

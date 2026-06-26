@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import inspect
 import logging
 import os
+import re
+import sys
 import warnings
 from pathlib import Path
 
@@ -33,6 +36,50 @@ from unsloth import FastModel
 
 console = Console()
 disable_progress_bar()
+
+
+class Tee:
+    def __init__(self, *streams):
+        self.streams = streams
+
+    def write(self, data: str) -> int:
+        for stream in self.streams:
+            stream.write(data)
+            stream.flush()
+        return len(data)
+
+    def flush(self) -> None:
+        for stream in self.streams:
+            stream.flush()
+
+
+def enable_file_log(path: Path):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = path.open("a", encoding="utf-8", buffering=1)
+    original_stdout = sys.stdout
+    original_stderr = sys.stderr
+    sys.stdout = Tee(original_stdout, handle)
+    sys.stderr = Tee(original_stderr, handle)
+    print()
+    print("=" * 60)
+    print(f"Adriano training log - {dt.datetime.now().isoformat(timespec='seconds')}")
+    print("=" * 60)
+    return handle, original_stdout, original_stderr
+
+
+def latest_checkpoint(output_dir: Path) -> Path | None:
+    if not output_dir.exists():
+        return None
+    checkpoints = []
+    for path in output_dir.glob("checkpoint-*"):
+        if not path.is_dir():
+            continue
+        match = re.fullmatch(r"checkpoint-(\d+)", path.name)
+        if match:
+            checkpoints.append((int(match.group(1)), path))
+    if not checkpoints:
+        return None
+    return max(checkpoints, key=lambda item: item[0])[1]
 
 
 def read_config(path: Path) -> dict:
@@ -80,10 +127,18 @@ def apply_qwen_chat_template(tokenizer, messages: list[dict], enable_thinking: b
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, required=True)
+    parser.add_argument("--resume", choices=["auto", "never"], default="auto")
+    parser.add_argument("--log-file", type=Path)
     args = parser.parse_args()
 
+    log_handle = None
+    original_stdout = None
+    original_stderr = None
+    if args.log_file:
+        log_handle, original_stdout, original_stderr = enable_file_log(args.log_file)
     cfg = read_config(args.config)
     max_seq_length = int(cfg["max_seq_length"])
+    output_dir = Path(cfg["output_dir"])
 
     console.print(f"[bold]Loading base model:[/bold] {cfg['base_model']}")
     model, tokenizer = FastModel.from_pretrained(
@@ -144,6 +199,8 @@ def main() -> None:
         "seed": int(train_cfg["seed"]),
         "report_to": "none",
     }
+    if "save_total_limit" in train_cfg:
+        sft_kwargs["save_total_limit"] = int(train_cfg["save_total_limit"])
     if "max_seq_length" in sft_params:
         sft_kwargs["max_seq_length"] = max_seq_length
     elif "max_length" in sft_params:
@@ -161,12 +218,27 @@ def main() -> None:
     processing_arg = "processing_class" if "processing_class" in inspect.signature(SFTTrainer.__init__).parameters else "tokenizer"
     trainer_kwargs[processing_arg] = tokenizer
     trainer = SFTTrainer(**trainer_kwargs)
-    trainer.train()
 
-    output_dir = Path(cfg["output_dir"])
+    resume_from_checkpoint = None
+    if args.resume == "auto":
+        checkpoint = latest_checkpoint(output_dir)
+        if checkpoint is not None:
+            resume_from_checkpoint = str(checkpoint)
+            console.print(f"[bold yellow]Ripartenza automatica da checkpoint:[/bold yellow] {checkpoint}")
+        else:
+            console.print("[bold]Nessun checkpoint precedente: training da zero.[/bold]")
+
+    trainer.train(resume_from_checkpoint=resume_from_checkpoint)
+
     model.save_pretrained(output_dir)
     tokenizer.save_pretrained(output_dir)
     console.print(f"[bold green]Adapter salvato in[/bold green] {output_dir}")
+    if log_handle is not None:
+        sys.stdout.flush()
+        sys.stderr.flush()
+        sys.stdout = original_stdout
+        sys.stderr = original_stderr
+        log_handle.close()
 
 
 if __name__ == "__main__":

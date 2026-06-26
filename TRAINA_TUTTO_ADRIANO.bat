@@ -13,12 +13,31 @@ set "HF_HUB_DISABLE_TELEMETRY=1"
 set "TRANSFORMERS_NO_ADVISORY_WARNINGS=1"
 set "GLOG_minloglevel=2"
 set "FLAGS_minloglevel=2"
+set "LOGDIR=%ROOT%logs"
+set "TRAIN_LOG=%LOGDIR%\training_latest.log"
+set "OUTPUT_DIR=%ROOT%outputs\adriano-qwen3-14b-curated-lora"
+set "RUN_MARKER=%ROOT%outputs\.adriano_training_active"
+set "RESUME_MODE=auto"
+if not exist "%LOGDIR%" mkdir "%LOGDIR%"
 
 echo.
 echo ============================================================
 echo  ADRIANO IA - TRAINING TUTTO COMPRESO
 echo ============================================================
+echo  Log training: logs\training_latest.log
 echo.
+
+if not exist "%ROOT%outputs" mkdir "%ROOT%outputs"
+if exist "%RUN_MARKER%" (
+    echo [0/8] Run precedente interrotta: resume automatico dai checkpoint
+    set "RESUME_MODE=auto"
+) else (
+    echo [0/8] Ripartenza da zero: pulizia output e dataset generati
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "$root=(Resolve-Path '%ROOT%').Path; $targets=@('%OUTPUT_DIR%','%TRAIN_LOG%','%ROOT%data\distilled\teacher_adriano.jsonl','%ROOT%data\curated\adriano_sft.jsonl','%ROOT%data\curated\adriano_sft_report.json'); foreach($target in $targets){ if(Test-Path -LiteralPath $target){ $resolved=(Resolve-Path -LiteralPath $target).Path; if($resolved.StartsWith($root,[System.StringComparison]::OrdinalIgnoreCase)){ Remove-Item -LiteralPath $resolved -Recurse -Force } else { throw \"Target fuori progetto: $resolved\" } } }"
+    if errorlevel 1 goto :fail
+    echo active>"%RUN_MARKER%"
+    set "RESUME_MODE=never"
+)
 
 if not exist "%ROOT%.venv\Scripts\activate.bat" (
     echo [1/8] Setup ambiente
@@ -61,7 +80,7 @@ python "%ROOT%scripts\convert_external_to_sft.py"
 if errorlevel 1 goto :fail
 
 echo.
-echo [6/8] Creazione dataset distillato locale
+echo [6/8] Creazione DISTILLER locale e dataset distillato
 python "%ROOT%scripts\create_local_distilled_dataset.py" --input "%ROOT%data\curated\external_sft.jsonl" --output "%ROOT%data\distilled\teacher_adriano.jsonl"
 if errorlevel 1 goto :fail
 
@@ -73,15 +92,17 @@ python "%ROOT%scripts\validate_jsonl.py" --kind chat "%ROOT%data\curated\adriano
 if errorlevel 1 goto :fail
 
 echo.
-echo [8/8] Training Adriano
-python "%ROOT%scripts\train_qlora.py" --config "%ROOT%configs\adriano_qwen3_14b_curated.yaml"
+echo [8/8] Training Adriano con resume automatico
+python "%ROOT%scripts\train_qlora.py" --config "%ROOT%configs\adriano_qwen3_14b_curated.yaml" --resume "%RESUME_MODE%" --log-file "%TRAIN_LOG%"
 if errorlevel 1 goto :fail
 
 echo.
 echo ============================================================
 echo  TRAINING COMPLETATO
 echo  Adapter: outputs\adriano-qwen3-14b-curated-lora
+echo  Log: logs\training_latest.log
 echo ============================================================
+if exist "%RUN_MARKER%" del "%RUN_MARKER%" >nul 2>nul
 pause
 exit /b 0
 
@@ -89,7 +110,8 @@ exit /b 0
 echo.
 echo ============================================================
 echo  ERRORE: training tutto compreso fermato.
-echo  Mandami le ultime righe di questa finestra.
+echo  Log salvato in: logs\training_latest.log
+echo  Mandami quel file o le ultime righe della finestra.
 echo ============================================================
 pause
 exit /b 1

@@ -30,6 +30,6 @@ training:
   weight_decay: 0.01
   lr_scheduler_type: cosine
   logging_steps: 1
-  save_steps: 50
+  save_steps: 25
+  save_total_limit: 8
   seed: 3407
-
