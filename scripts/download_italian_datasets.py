@@ -2,12 +2,24 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
+import os
 import shutil
 import subprocess
 import sys
 import urllib.request
+import warnings
 from pathlib import Path
 
+
+os.environ.setdefault("PYTHONUTF8", "1")
+os.environ.setdefault("PYTHONIOENCODING", "utf-8")
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
+os.environ.setdefault("HF_HUB_DISABLE_TELEMETRY", "1")
+
+warnings.filterwarnings("ignore", category=FutureWarning)
+logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
+logging.getLogger("datasets").setLevel(logging.ERROR)
 
 ROOT = Path(__file__).resolve().parents[1]
 EXTERNAL = ROOT / "data" / "external"
@@ -94,6 +106,9 @@ def download_git(repo: str, target: Path, force: bool) -> None:
 
 def download_hf_dataset(dataset_name: str, target: Path, force: bool) -> None:
     from datasets import load_dataset
+    from datasets.utils.logging import disable_progress_bar
+
+    disable_progress_bar()
 
     if target.exists() and force:
         shutil.rmtree(target)
@@ -151,4 +166,3 @@ if __name__ == "__main__":
         raise SystemExit(exc.returncode) from exc
     except KeyboardInterrupt:
         sys.exit(130)
-

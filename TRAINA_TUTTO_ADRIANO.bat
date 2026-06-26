@@ -5,6 +5,15 @@ chcp 65001 >nul
 set "ROOT=%~dp0"
 cd /d "%ROOT%"
 
+set "PYTHONUTF8=1"
+set "PYTHONIOENCODING=utf-8"
+set "PYTHONWARNINGS=ignore::FutureWarning"
+set "HF_HUB_DISABLE_PROGRESS_BARS=1"
+set "HF_HUB_DISABLE_TELEMETRY=1"
+set "TRANSFORMERS_NO_ADVISORY_WARNINGS=1"
+set "GLOG_minloglevel=2"
+set "FLAGS_minloglevel=2"
+
 echo.
 echo ============================================================
 echo  ADRIANO IA - TRAINING TUTTO COMPRESO

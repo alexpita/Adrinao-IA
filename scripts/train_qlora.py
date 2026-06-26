@@ -2,19 +2,37 @@ from __future__ import annotations
 
 import argparse
 import inspect
+import logging
+import os
+import warnings
 from pathlib import Path
+
+os.environ.setdefault("PYTHONUTF8", "1")
+os.environ.setdefault("PYTHONIOENCODING", "utf-8")
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
+os.environ.setdefault("HF_HUB_DISABLE_TELEMETRY", "1")
+os.environ.setdefault("TRANSFORMERS_NO_ADVISORY_WARNINGS", "1")
+os.environ.setdefault("GLOG_minloglevel", "2")
+os.environ.setdefault("FLAGS_minloglevel", "2")
+
+warnings.filterwarnings("ignore", category=FutureWarning)
+logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
+logging.getLogger("transformers").setLevel(logging.ERROR)
+logging.getLogger("datasets").setLevel(logging.ERROR)
 
 # Unsloth must patch Torch/TRL before they are imported.
 import unsloth  # noqa: F401
 import torch
 import yaml
 from datasets import concatenate_datasets, load_dataset
+from datasets.utils.logging import disable_progress_bar
 from rich.console import Console
 from trl import SFTConfig, SFTTrainer
 from unsloth import FastModel
 
 
 console = Console()
+disable_progress_bar()
 
 
 def read_config(path: Path) -> dict:
