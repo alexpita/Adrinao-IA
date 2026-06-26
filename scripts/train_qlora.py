@@ -139,6 +139,13 @@ def main() -> None:
     cfg = read_config(args.config)
     max_seq_length = int(cfg["max_seq_length"])
     output_dir = Path(cfg["output_dir"])
+    console.print(
+        "[bold]Training profile:[/bold] "
+        f"packing={bool(cfg.get('packing', False))}, "
+        f"max_seq_length={max_seq_length}, "
+        f"epochs={cfg['training']['num_train_epochs']}, "
+        f"max_steps={cfg['training']['max_steps']}"
+    )
 
     console.print(f"[bold]Loading base model:[/bold] {cfg['base_model']}")
     model, tokenizer = FastModel.from_pretrained(

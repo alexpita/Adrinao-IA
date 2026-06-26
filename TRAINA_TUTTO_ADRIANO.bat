@@ -1,5 +1,5 @@
 @echo off
-setlocal EnableExtensions
+setlocal EnableExtensions EnableDelayedExpansion
 chcp 65001 >nul
 
 set "ROOT=%~dp0"
@@ -17,6 +17,7 @@ set "LOGDIR=%ROOT%logs"
 set "TRAIN_LOG=%LOGDIR%\training_latest.log"
 set "OUTPUT_DIR=%ROOT%outputs\adriano-qwen3-14b-curated-lora"
 set "RUN_MARKER=%ROOT%outputs\.adriano_training_active"
+set "TRAINING_PROFILE_VERSION=curated-packing-3epochs-v2"
 set "RESUME_MODE=auto"
 if not exist "%LOGDIR%" mkdir "%LOGDIR%"
 
@@ -28,14 +29,24 @@ echo  Log training: logs\training_latest.log
 echo.
 
 if not exist "%ROOT%outputs" mkdir "%ROOT%outputs"
+set "NEEDS_CLEAN=1"
 if exist "%RUN_MARKER%" (
-    echo [0/8] Run precedente interrotta: resume automatico dai checkpoint
-    set "RESUME_MODE=auto"
-) else (
+    set "ACTIVE_PROFILE="
+    set /p ACTIVE_PROFILE=<"%RUN_MARKER%"
+    if "!ACTIVE_PROFILE!"=="%TRAINING_PROFILE_VERSION%" (
+        echo [0/8] Run precedente interrotta: resume automatico dai checkpoint
+        set "RESUME_MODE=auto"
+        set "NEEDS_CLEAN=0"
+    ) else (
+        echo [0/8] Profilo training cambiato: ripartenza pulita
+    )
+)
+
+if "!NEEDS_CLEAN!"=="1" (
     echo [0/8] Ripartenza da zero: pulizia output e dataset generati
     powershell -NoProfile -ExecutionPolicy Bypass -Command "$root=(Resolve-Path '%ROOT%').Path; $targets=@('%OUTPUT_DIR%','%TRAIN_LOG%','%ROOT%data\distilled\teacher_adriano.jsonl','%ROOT%data\curated\adriano_sft.jsonl','%ROOT%data\curated\adriano_sft_report.json'); foreach($target in $targets){ if(Test-Path -LiteralPath $target){ $resolved=(Resolve-Path -LiteralPath $target).Path; if($resolved.StartsWith($root,[System.StringComparison]::OrdinalIgnoreCase)){ Remove-Item -LiteralPath $resolved -Recurse -Force } else { throw \"Target fuori progetto: $resolved\" } } }"
     if errorlevel 1 goto :fail
-    echo active>"%RUN_MARKER%"
+    echo %TRAINING_PROFILE_VERSION%>"%RUN_MARKER%"
     set "RESUME_MODE=never"
 )
 
