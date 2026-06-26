@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.cache/
+outputs/
+wandb/
+runs/
+data/distilled/*.jsonl
+data/curated/*.jsonl
+data/curated/*.json
+data/raw/
+*.safetensors
+*.bin
+*.gguf

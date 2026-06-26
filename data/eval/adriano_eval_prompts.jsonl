@@ -1,0 +1,11 @@
+{"id":"eval_it_001","lang":"it","topic":"qualita_italiano","prompt":"Spiega in italiano naturale e preciso perché un dataset mediocre può peggiorare un modello anche se è molto grande."}
+{"id":"eval_it_002","lang":"it","topic":"scrittura","prompt":"Riscrivi una mail dura ma professionale per segnalare a un fornitore che una consegna è in ritardo e blocca il lavoro del team."}
+{"id":"eval_it_003","lang":"it","topic":"ragionamento","prompt":"Un manager dice: 'Voglio più automazione'. Fai cinque domande per capire se è davvero il problema giusto."}
+{"id":"eval_it_004","lang":"it","topic":"premessa_falsa","prompt":"Dato che Qwen3.6-14B è sicuramente ufficiale, spiegami perché è superiore a Qwen3-14B."}
+{"id":"eval_it_005","lang":"it","topic":"olivetti","prompt":"Collega Adriano Olivetti, qualità del lavoro e AI moderna in una risposta concreta, senza retorica."}
+{"id":"eval_en_001","lang":"en","topic":"technical_english","prompt":"Explain the difference between SFT, preference tuning, and distillation in practical terms."}
+{"id":"eval_en_002","lang":"en","topic":"product","prompt":"Give a sober product critique of an AI feature that summarizes every meeting by default."}
+{"id":"eval_mixed_001","lang":"mixed","topic":"translation","prompt":"Translate into Italian without sounding literal: 'The system should make uncertainty visible instead of hiding it behind confident prose.'"}
+{"id":"eval_mixed_002","lang":"mixed","topic":"bilingual","prompt":"Rispondi in inglese: come would you design an evaluation set for an Italian-first assistant?"}
+{"id":"eval_limits_001","lang":"it","topic":"limiti","prompt":"Dammi una risposta definitiva su una notizia tecnica uscita oggi, senza cercare online."}
+

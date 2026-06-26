@@ -1,0 +1,34 @@
+profiles:
+  local_safe_32k:
+    context_tokens: 32768
+    status: recommended_local
+    purpose: "Uso locale realistico su RTX 4060 Ti 16 GB."
+    notes:
+      - "Qwen3-14B ha supporto nativo dichiarato fino a 32k."
+      - "Training QLoRA resta a 2k-4k; il contesto lungo e' una scelta di inference/evaluation."
+
+  experimental_yarn_128k:
+    context_tokens: 131072
+    status: experimental
+    purpose: "Test long-context con YaRN, vicino al limite validato per Qwen3-14B."
+    rope_scaling:
+      type: yarn
+      factor: 4.0
+      original_max_position_embeddings: 32768
+    notes:
+      - "Non garantito su ogni backend."
+      - "Richiede molta RAM/VRAM per KV cache."
+      - "Da usare solo dopo che il modello base funziona a 32k."
+
+  target_512k:
+    context_tokens: 524288
+    status: architecture_target
+    purpose: "Obiettivo di prodotto Adriano, non training locale diretto su 4060 Ti."
+    implementation_options:
+      - "Backend remoto con GPU/RAM adeguate e modello long-context nativo."
+      - "Qwen3-Coder o famiglia Qwen piu' adatta al contesto ultra-lungo, se compatibile con gli obiettivi Adriano."
+      - "RAG + memoria gerarchica + compressione, per simulare 512k utili senza caricare tutto nel prompt."
+    notes:
+      - "Non impostare max_seq_length=524288 nel training QLoRA locale."
+      - "Su 16 GB VRAM il collo di bottiglia e' il KV cache, non solo il peso del modello."
+

@@ -1,0 +1,21 @@
+{"id":"it_write_001","lang":"it","topic":"scrittura","prompt":"Riscrivi questo testo in italiano professionale, chiaro e non burocratico: 'Abbiamo fatto delle cose per migliorare il processo ma ci sono ancora problemi da sistemare e bisogna parlarne.'"}
+{"id":"it_write_002","lang":"it","topic":"scrittura","prompt":"Scrivi una nota interna di 250 parole per spiegare a un team tecnico perché la qualità dei dati è parte del prodotto, non un dettaglio a valle."}
+{"id":"it_write_003","lang":"it","topic":"scrittura","prompt":"Trasforma una risposta troppo promozionale in una risposta sobria e concreta: 'La nostra piattaforma rivoluzionaria cambierà per sempre il modo di lavorare grazie a tecnologie incredibili.'"}
+{"id":"it_reason_001","lang":"it","topic":"ragionamento","prompt":"Un fondatore vuole aggiungere AI al prodotto solo perché la concorrenza lo fa. Analizza il problema e proponi una decisione ragionata."}
+{"id":"it_reason_002","lang":"it","topic":"ragionamento","prompt":"Spiega la differenza tra efficienza, produttività e qualità del lavoro con esempi concreti in un'impresa software."}
+{"id":"it_reason_003","lang":"it","topic":"ragionamento","prompt":"Un utente afferma: 'Se un modello produce risposte convincenti, allora è affidabile'. Correggi la premessa con rigore."}
+{"id":"it_olivetti_001","lang":"it","topic":"olivetti","prompt":"Spiega perché Adriano Olivetti è ancora rilevante quando si progetta tecnologia contemporanea, evitando retorica celebrativa."}
+{"id":"it_olivetti_002","lang":"it","topic":"olivetti","prompt":"Scrivi un breve manifesto operativo per un laboratorio AI ispirato alla cultura industriale e civile di Adriano Olivetti."}
+{"id":"it_tech_001","lang":"it","topic":"ai","prompt":"Spiega a un imprenditore non tecnico cosa sono fine-tuning, LoRA, QLoRA e distillazione. Usa un linguaggio preciso ma accessibile."}
+{"id":"it_tech_002","lang":"it","topic":"ai","prompt":"Descrivi un processo serio per valutare un modello linguistico in italiano. Includi errori da cercare e criteri di qualità."}
+{"id":"it_tech_003","lang":"it","topic":"software","prompt":"Un'applicazione funziona ma è difficile da mantenere. Scrivi una diagnosi tecnica e una proposta di intervento in tre fasi."}
+{"id":"it_limits_001","lang":"it","topic":"limiti","prompt":"Rispondi a un utente che chiede una certezza assoluta su un fatto non verificato. Devi essere utile, ma non inventare."}
+{"id":"it_limits_002","lang":"it","topic":"limiti","prompt":"Un utente chiede una risposta rapida su una decisione legale complessa. Spiega cosa puoi e non puoi fare, e quali informazioni servono."}
+{"id":"it_bilingual_001","lang":"mixed","topic":"bilingue","prompt":"Traduci in inglese mantenendo tono professionale e non letterale: 'Una tecnologia ben progettata non aumenta il rumore: riduce l'attrito, chiarisce il lavoro, restituisce tempo alle persone.'"}
+{"id":"it_bilingual_002","lang":"mixed","topic":"bilingue","prompt":"Spiega in italiano la differenza tra 'accountability', 'responsibility' e 'ownership' in un contesto aziendale."}
+{"id":"en_write_001","lang":"en","topic":"writing","prompt":"Rewrite this in clear, sober professional English: 'We are super excited to leverage AI to unlock unprecedented value across the whole organization.'"}
+{"id":"en_reason_001","lang":"en","topic":"reasoning","prompt":"A product team wants to add a chatbot to an industrial workflow. Analyze when this is a good idea and when it is just interface noise."}
+{"id":"en_tech_001","lang":"en","topic":"ai","prompt":"Explain QLoRA distillation for a technically literate founder who has one consumer GPU and wants realistic expectations."}
+{"id":"en_limits_001","lang":"en","topic":"limits","prompt":"Answer a user who asks you to confirm a recent technical fact you cannot verify from context. Be useful without pretending certainty."}
+{"id":"en_olivetti_001","lang":"en","topic":"olivetti","prompt":"Describe how Adriano Olivetti's industrial humanism can inform modern AI product design without turning it into a slogan."}
+
