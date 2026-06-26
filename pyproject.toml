@@ -22,3 +22,5 @@ dependencies = [
 [tool.uv]
 index-strategy = "unsafe-best-match"
 
+[tool.setuptools]
+py-modules = []

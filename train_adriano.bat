@@ -21,6 +21,24 @@ if not exist "%ROOT%.venv\Scripts\activate.bat" (
 call "%ROOT%.venv\Scripts\activate.bat"
 if errorlevel 1 goto :fail
 
+python -c "import rich, yaml, torch" 1>nul 2>nul
+if errorlevel 1 (
+    echo [SETUP] Dipendenze base mancanti. Completo setup ambiente.
+    call "%ROOT%adriano.bat" setup
+    if errorlevel 1 goto :fail
+    call "%ROOT%.venv\Scripts\activate.bat"
+    if errorlevel 1 goto :fail
+)
+
+python -c "import unsloth" 1>nul 2>nul
+if errorlevel 1 (
+    echo [SETUP] Unsloth mancante. Completo setup ambiente.
+    call "%ROOT%adriano.bat" setup
+    if errorlevel 1 goto :fail
+    call "%ROOT%.venv\Scripts\activate.bat"
+    if errorlevel 1 goto :fail
+)
+
 echo.
 echo [1/4] Verifica GPU e pacchetti
 python "%ROOT%scripts\verify_gpu.py"

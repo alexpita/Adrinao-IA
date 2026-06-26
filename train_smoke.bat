@@ -20,6 +20,15 @@ if not exist "%ROOT%.venv\Scripts\activate.bat" (
 call "%ROOT%.venv\Scripts\activate.bat"
 if errorlevel 1 goto :fail
 
+python -c "import rich, yaml, torch, unsloth" 1>nul 2>nul
+if errorlevel 1 (
+    echo [SETUP] Dipendenze mancanti. Completo setup ambiente.
+    call "%ROOT%adriano.bat" setup
+    if errorlevel 1 goto :fail
+    call "%ROOT%.venv\Scripts\activate.bat"
+    if errorlevel 1 goto :fail
+)
+
 python "%ROOT%scripts\train_qlora.py" --config "%ROOT%configs\adriano_qwen3_14b_qlora.yaml"
 if errorlevel 1 goto :fail
 
