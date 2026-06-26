@@ -118,6 +118,18 @@ download_datasets.bat
 download_datasets.bat --list
 ```
 
+Training tutto compreso, da doppio click:
+
+```bat
+TRAINA_TUTTO_ADRIANO.bat
+```
+
+Crea modello esportato/GGUF/Ollama:
+
+```bat
+CREA_MODELLO_USABILE_ADRIANO.bat
+```
+
 Comandi disponibili:
 
 ```bat
@@ -301,6 +313,18 @@ External dataset download:
 ```bat
 download_datasets.bat
 download_datasets.bat --list
+```
+
+Full one-click training:
+
+```bat
+TRAINA_TUTTO_ADRIANO.bat
+```
+
+Create exported/GGUF/Ollama model:
+
+```bat
+CREA_MODELLO_USABILE_ADRIANO.bat
 ```
 
 Available commands:
