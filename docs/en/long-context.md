@@ -76,13 +76,7 @@ max_seq_length: 524288
 
 in local training configs.
 
-Use instead:
-
-```powershell
-.\adriano.bat context-plan
-```
-
-to estimate memory and choose a profile.
+Use `scripts/estimate_context_memory.py` to estimate memory and choose a profile.
 
 ## Profiles
 

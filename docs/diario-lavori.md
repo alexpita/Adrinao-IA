@@ -93,7 +93,7 @@ Il setup manuale su Windows ha mostrato un problema concreto: la virtualenv pote
 
 ### Decisione
 
-È stato aggiunto `adriano.bat`, un launcher da doppio click o da terminale che può eseguire:
+È stato aggiunto un launcher Windows da doppio click per eseguire:
 
 - setup completo;
 - verifica GPU e pacchetti;
@@ -121,7 +121,7 @@ Sono stati aggiunti:
 - script di validazione JSONL;
 - script di preparazione dataset SFT;
 - configurazione training su dataset curato;
-- comandi `adriano.bat validate-data`, `distill`, `curate` e `train-curated`.
+- preparazione dati e training tramite launcher root.
 
 ### Motivo
 
@@ -144,7 +144,7 @@ Sono stati aggiunti:
 - profili long-context 32k, 128k e target 512k;
 - documento tecnico dedicato;
 - script di stima KV cache;
-- comando `adriano.bat context-plan`.
+- script di stima contesto lungo.
 
 ### Motivo
 
@@ -181,11 +181,11 @@ Molti dataset italiani sono `NC`, derivati da traduzioni, oppure pensati per eva
 | 2026-06-26 | Distillazione separata dal training | Separare generazione dati, filtro qualità e SFT |
 | 2026-06-26 | Adapter LoRA come formato iniziale | Iterazione rapida e costi contenuti |
 | 2026-06-26 | Repository bilingue italiano/inglese | Coerenza con l'identità bilingue del modello |
-| 2026-06-26 | Launcher Windows `adriano.bat` | Ridurre attrito operativo e rendere il setup ripetibile |
+| 2026-06-26 | Launcher Windows | Ridurre attrito operativo e rendere il setup ripetibile |
 | 2026-06-26 | Pipeline dati distillata | Rendere Adriano addestrabile su dati curati, non solo su seed |
 | 2026-06-26 | Target contesto 512k come architettura | Evitare configurazioni locali irrealistiche e pianificare long-context in modo robusto |
 | 2026-06-26 | Catalogo fonti dataset italiane | Separare corpus, benchmark e instruction data con attenzione alle licenze |
-| 2026-06-26 | Launcher root `train_adriano.bat` e `train_smoke.bat` | Rendere il training avviabile senza ricordare sottocomandi |
+| 2026-06-26 | Launcher root `TRAINA_TUTTO_ADRIANO.bat` e `CREA_MODELLO_USABILE_ADRIANO.bat` | Tenere solo due batch operativi: training completo e creazione modello |
 
 ## Standard Del Diario
 

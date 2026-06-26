@@ -20,23 +20,6 @@ Pipeline:
 - `data/distilled/teacher_adriano.jsonl`: risposte generate dal teacher, ignorate da git.
 - `data/curated/adriano_sft.jsonl`: dataset SFT filtrato, ignorato da git.
 - `data/eval/adriano_eval_prompts.jsonl`: prompt di valutazione, mai da usare nel training.
-- `data/external/`: dataset esterni scaricati con `download_datasets.bat`, ignorati da git.
+- `data/external/`: dataset esterni scaricati da `TRAINA_TUTTO_ADRIANO.bat`, ignorati da git.
 
-Comandi:
-
-```powershell
-.\adriano.bat validate-data
-.\adriano.bat distill
-.\adriano.bat curate
-.\adriano.bat train-curated
-```
-
-Download fonti esterne:
-
-```powershell
-.\download_datasets.bat --list
-.\download_datasets.bat
-.\download_datasets.bat paisa_raw
-```
-
-I dataset esterni non entrano automaticamente nel training: vanno filtrati, ripuliti e convertiti.
+Il training tutto compreso viene avviato dal batch root `TRAINA_TUTTO_ADRIANO.bat`.

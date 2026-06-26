@@ -13,7 +13,7 @@ echo.
 
 if not exist "%ROOT%.venv\Scripts\activate.bat" (
     echo [1/7] Setup ambiente
-    call "%ROOT%adriano.bat" setup
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%ROOT%scripts\setup_env.ps1"
     if errorlevel 1 goto :fail
 ) else (
     echo [1/7] Ambiente trovato
@@ -25,7 +25,7 @@ if errorlevel 1 goto :fail
 python -c "import rich, yaml, torch, unsloth, datasets" 1>nul 2>nul
 if errorlevel 1 (
     echo [2/7] Dipendenze incomplete: completo setup
-    call "%ROOT%adriano.bat" setup
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%ROOT%scripts\setup_env.ps1"
     if errorlevel 1 goto :fail
     call "%ROOT%.venv\Scripts\activate.bat"
     if errorlevel 1 goto :fail
@@ -40,7 +40,7 @@ if errorlevel 1 goto :fail
 echo.
 echo [4/7] Download dataset esterni
 if not exist "%ROOT%data\external\camoscio" (
-    call "%ROOT%download_datasets.bat" --no-pause
+    python "%ROOT%scripts\download_italian_datasets.py"
     if errorlevel 1 goto :fail
 ) else (
     echo data\external\camoscio gia presente: salto download.

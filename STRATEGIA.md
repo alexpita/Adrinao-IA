@@ -36,13 +36,10 @@ File principali:
 - `data/curated/adriano_sft.jsonl`: dataset SFT filtrato;
 - `data/eval/adriano_eval_prompts.jsonl`: prompt di valutazione esclusi dal training.
 
-Comandi:
+Launcher unico:
 
-```powershell
-.\adriano.bat validate-data
-.\adriano.bat distill
-.\adriano.bat curate
-.\adriano.bat train-curated
+```text
+TRAINA_TUTTO_ADRIANO.bat
 ```
 
 ### Fase 0 - Smoke test

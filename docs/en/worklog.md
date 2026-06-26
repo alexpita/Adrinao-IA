@@ -93,7 +93,7 @@ Manual Windows setup exposed a concrete issue: the virtual environment could be 
 
 ### Decision
 
-The project now includes `adriano.bat`, a launcher that can run:
+The project now includes a Windows double-click launcher that can run:
 
 - full setup;
 - GPU and package verification;
@@ -121,7 +121,7 @@ The project now includes:
 - JSONL validation script;
 - SFT dataset preparation script;
 - training configuration for curated data;
-- `adriano.bat validate-data`, `distill`, `curate`, and `train-curated` commands.
+- data preparation and training through the root launcher.
 
 ### Rationale
 
@@ -144,7 +144,7 @@ The project now includes:
 - long-context profiles for 32k, 128k, and the 512k target;
 - a dedicated technical document;
 - a KV cache estimation script;
-- `adriano.bat context-plan`.
+- long-context memory estimation script.
 
 ### Rationale
 
@@ -181,11 +181,11 @@ Many Italian datasets are `NC`, translated, or designed for evaluation rather th
 | 2026-06-26 | Distillation separated from training | Separate data generation, quality filtering, and SFT |
 | 2026-06-26 | LoRA adapters as the initial format | Fast iteration and lower storage cost |
 | 2026-06-26 | Bilingual Italian/English repository | Consistency with the model's bilingual identity |
-| 2026-06-26 | Windows `adriano.bat` launcher | Reduce operational friction and make setup repeatable |
+| 2026-06-26 | Windows launcher | Reduce operational friction and make setup repeatable |
 | 2026-06-26 | Distilled data pipeline | Make Adriano trainable on curated data, not only on seed examples |
 | 2026-06-26 | 512k context as an architecture target | Avoid unrealistic local settings and plan long-context robustly |
 | 2026-06-26 | Italian dataset source catalog | Separate corpora, benchmarks, and instruction data with license awareness |
-| 2026-06-26 | Root launchers `train_adriano.bat` and `train_smoke.bat` | Make training startable without remembering subcommands |
+| 2026-06-26 | Root launchers `TRAINA_TUTTO_ADRIANO.bat` and `CREA_MODELLO_USABILE_ADRIANO.bat` | Keep only two operational batch files: full training and model creation |
 
 ## Worklog Standard
 

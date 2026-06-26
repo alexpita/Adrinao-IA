@@ -13,7 +13,7 @@ echo.
 
 if not exist "%ROOT%.venv\Scripts\activate.bat" (
     echo [SETUP] Ambiente non trovato.
-    call "%ROOT%adriano.bat" setup
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%ROOT%scripts\setup_env.ps1"
     if errorlevel 1 goto :fail
 )
 

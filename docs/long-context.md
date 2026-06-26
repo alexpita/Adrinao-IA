@@ -76,13 +76,7 @@ max_seq_length: 524288
 
 nei config di training locale.
 
-Usare invece:
-
-```powershell
-.\adriano.bat context-plan
-```
-
-per stimare memoria e scegliere un profilo.
+Usare `scripts/estimate_context_memory.py` per stimare memoria e scegliere un profilo.
 
 ## Profili
 

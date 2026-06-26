@@ -29,12 +29,7 @@ These prompts are not the final dataset. They are questions sent to a stronger t
 
 Distillation requires an OpenAI-compatible endpoint:
 
-```powershell
-$env:TEACHER_BASE_URL="http://localhost:8000/v1"
-$env:TEACHER_API_KEY="local"
-$env:TEACHER_MODEL="qwen3.6-27b-instruct"
-.\adriano.bat distill
-```
+Distillation uses `scripts/distill_from_teacher.py` when an OpenAI-compatible teacher is configured.
 
 Output:
 
@@ -46,9 +41,7 @@ data/distilled/teacher_adriano.jsonl
 
 Distilled answers must be filtered. The automatic filter removes only obvious failures: answers that are too short, malformed roles, duplicates, or empty content. It does not replace human review.
 
-```powershell
-.\adriano.bat curate
-```
+Dataset preparation is included in `TRAINA_TUTTO_ADRIANO.bat`.
 
 Output:
 
@@ -77,4 +70,3 @@ They must not be used for training.
 ## Quality Rule
 
 Five hundred excellent examples are better than twenty thousand mediocre ones. Adriano must learn Italian, method, and tone; it must not accumulate noise.
-
