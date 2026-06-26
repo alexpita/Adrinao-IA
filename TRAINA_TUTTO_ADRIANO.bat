@@ -17,7 +17,7 @@ set "LOGDIR=%ROOT%logs"
 set "TRAIN_LOG=%LOGDIR%\training_latest.log"
 set "OUTPUT_DIR=%ROOT%outputs\adriano-qwen3-14b-curated-lora"
 set "RUN_MARKER=%ROOT%outputs\.adriano_training_active"
-set "TRAINING_PROFILE_VERSION=curated-packing-3epochs-v2"
+set "TRAINING_PROFILE_VERSION=curated-packing-2epochs-v3"
 set "RESUME_MODE=auto"
 if not exist "%LOGDIR%" mkdir "%LOGDIR%"
 

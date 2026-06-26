@@ -207,6 +207,7 @@ The local distilled dataset still derives from available instruction datasets; e
 | 2026-06-26 | Clean training with automatic resume | Avoid mixed outputs and recover from command-window interruption |
 | 2026-06-26 | Curated training set to 3 real epochs | Remove the 200-step smoke-test cap and actually train on the full dataset |
 | 2026-06-26 | Packing enabled for curated training | Reduce waste on short examples and sharply lower epoch time |
+| 2026-06-26 | Curated packed profile set to 2 epochs | Keep training realistic on RTX 4060 Ti 16GB without falling back to a smoke test |
 
 ## Worklog Standard
 

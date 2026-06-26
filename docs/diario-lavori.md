@@ -207,6 +207,7 @@ Il distillato locale deriva ancora dai dataset instruction disponibili localment
 | 2026-06-26 | Training pulito con resume automatico | Evitare output mescolati e recuperare da interruzioni della finestra |
 | 2026-06-26 | Training curated a 3 epoche reali | Rimuovere il limite smoke-test da 200 step e allenare davvero sul dataset completo |
 | 2026-06-26 | Packing attivo nel training curated | Ridurre lo spreco su esempi brevi e abbassare drasticamente il tempo per epoca |
+| 2026-06-26 | Profilo curated packed a 2 epoche | Rendere il training realistico su RTX 4060 Ti 16GB senza tornare a uno smoke test |
 
 ## Standard Del Diario
 
