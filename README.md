@@ -111,6 +111,13 @@ Smoke test veloce:
 train_smoke.bat
 ```
 
+Download dataset esterni:
+
+```bat
+download_datasets.bat
+download_datasets.bat --list
+```
+
 Comandi disponibili:
 
 ```bat
@@ -287,6 +294,13 @@ Quick smoke test:
 
 ```bat
 train_smoke.bat
+```
+
+External dataset download:
+
+```bat
+download_datasets.bat
+download_datasets.bat --list
 ```
 
 Available commands:

@@ -12,6 +12,7 @@ data/distilled/*.jsonl
 data/curated/*.jsonl
 data/curated/*.json
 data/raw/
+data/external/
 *.safetensors
 *.bin
 *.gguf
