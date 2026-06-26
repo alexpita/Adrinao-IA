@@ -205,6 +205,7 @@ The local distilled dataset still derives from available instruction datasets; e
 | 2026-06-26 | Italian dataset source catalog | Separate corpora, benchmarks, and instruction data with license awareness |
 | 2026-06-26 | Root launchers `TRAINA_TUTTO_ADRIANO.bat` and `CREA_MODELLO_USABILE_ADRIANO.bat` | Keep only two operational batch files: full training and model creation |
 | 2026-06-26 | Clean training with automatic resume | Avoid mixed outputs and recover from command-window interruption |
+| 2026-06-26 | Curated training set to 3 real epochs | Remove the 200-step smoke-test cap and actually train on the full dataset |
 
 ## Worklog Standard
 

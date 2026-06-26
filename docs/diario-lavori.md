@@ -205,6 +205,7 @@ Il distillato locale deriva ancora dai dataset instruction disponibili localment
 | 2026-06-26 | Catalogo fonti dataset italiane | Separare corpus, benchmark e instruction data con attenzione alle licenze |
 | 2026-06-26 | Launcher root `TRAINA_TUTTO_ADRIANO.bat` e `CREA_MODELLO_USABILE_ADRIANO.bat` | Tenere solo due batch operativi: training completo e creazione modello |
 | 2026-06-26 | Training pulito con resume automatico | Evitare output mescolati e recuperare da interruzioni della finestra |
+| 2026-06-26 | Training curated a 3 epoche reali | Rimuovere il limite smoke-test da 200 step e allenare davvero sul dataset completo |
 
 ## Standard Del Diario
 
