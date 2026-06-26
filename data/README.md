@@ -17,7 +17,7 @@ Linee guida:
 Pipeline:
 
 - `data/prompts/adriano_distill_prompts.jsonl`: prompt da inviare al teacher.
-- `data/distilled/teacher_adriano.jsonl`: risposte generate dal teacher, ignorate da git.
+- `data/distilled/teacher_adriano.jsonl`: dataset distillato generato automaticamente dal batch. Se non e' configurato un teacher remoto, viene creato dai dataset esterni convertiti.
 - `data/curated/adriano_sft.jsonl`: dataset SFT filtrato, ignorato da git.
 - `data/eval/adriano_eval_prompts.jsonl`: prompt di valutazione, mai da usare nel training.
 - `data/external/`: dataset esterni scaricati da `TRAINA_TUTTO_ADRIANO.bat`, ignorati da git.
