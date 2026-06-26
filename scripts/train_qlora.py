@@ -4,6 +4,8 @@ import argparse
 import inspect
 from pathlib import Path
 
+# Unsloth must patch Torch/TRL before they are imported.
+import unsloth  # noqa: F401
 import torch
 import yaml
 from datasets import concatenate_datasets, load_dataset
@@ -103,27 +105,35 @@ def main() -> None:
     train_cfg = cfg["training"]
     bf16 = torch.cuda.is_available() and torch.cuda.is_bf16_supported()
 
-    training_args = SFTConfig(
-        output_dir=cfg["output_dir"],
-        dataset_text_field="text",
-        max_seq_length=max_seq_length,
-        packing=bool(cfg.get("packing", False)),
-        num_train_epochs=float(train_cfg["num_train_epochs"]),
-        max_steps=int(train_cfg["max_steps"]),
-        per_device_train_batch_size=int(train_cfg["per_device_train_batch_size"]),
-        gradient_accumulation_steps=int(train_cfg["gradient_accumulation_steps"]),
-        learning_rate=float(train_cfg["learning_rate"]),
-        warmup_steps=int(train_cfg["warmup_steps"]),
-        weight_decay=float(train_cfg["weight_decay"]),
-        lr_scheduler_type=train_cfg["lr_scheduler_type"],
-        logging_steps=int(train_cfg["logging_steps"]),
-        save_steps=int(train_cfg["save_steps"]),
-        optim="adamw_8bit",
-        fp16=not bf16,
-        bf16=bf16,
-        seed=int(train_cfg["seed"]),
-        report_to="none",
-    )
+    sft_params = inspect.signature(SFTConfig.__init__).parameters
+    sft_kwargs = {
+        "output_dir": cfg["output_dir"],
+        "dataset_text_field": "text",
+        "packing": bool(cfg.get("packing", False)),
+        "num_train_epochs": float(train_cfg["num_train_epochs"]),
+        "max_steps": int(train_cfg["max_steps"]),
+        "per_device_train_batch_size": int(train_cfg["per_device_train_batch_size"]),
+        "gradient_accumulation_steps": int(train_cfg["gradient_accumulation_steps"]),
+        "learning_rate": float(train_cfg["learning_rate"]),
+        "warmup_steps": int(train_cfg["warmup_steps"]),
+        "weight_decay": float(train_cfg["weight_decay"]),
+        "lr_scheduler_type": train_cfg["lr_scheduler_type"],
+        "logging_steps": int(train_cfg["logging_steps"]),
+        "save_steps": int(train_cfg["save_steps"]),
+        "optim": "adamw_8bit",
+        "fp16": not bf16,
+        "bf16": bf16,
+        "seed": int(train_cfg["seed"]),
+        "report_to": "none",
+    }
+    if "max_seq_length" in sft_params:
+        sft_kwargs["max_seq_length"] = max_seq_length
+    elif "max_length" in sft_params:
+        sft_kwargs["max_length"] = max_seq_length
+    else:
+        console.print("[yellow]SFTConfig has no max length argument; relying on dataset/model defaults.[/yellow]")
+
+    training_args = SFTConfig(**{key: value for key, value in sft_kwargs.items() if key in sft_params})
 
     trainer_kwargs = {
         "model": model,

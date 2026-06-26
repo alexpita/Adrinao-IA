@@ -5,6 +5,7 @@ __pycache__/
 .env
 .cache/
 outputs/
+unsloth_compiled_cache/
 wandb/
 runs/
 data/distilled/*.jsonl
